@@ -13,10 +13,21 @@ defmodule MangaxWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :json_api do
+    plug :accepts, ["json-api"]
+    plug :fetch_session
+    plug JaSerializer.Deserializer
+  end
+
   scope "/", MangaxWeb do
     pipe_through :browser
 
     get "/", PageController, :index
+  end
+
+  scope "/api", MangaxWeb do
+    pipe_through :json_api
+    resources "/magazines", Api.MagazineController
   end
 
   # Other scopes may use custom stacks.
