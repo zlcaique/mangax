@@ -28,6 +28,8 @@ defmodule MangaxWeb.Router do
   scope "/api", MangaxWeb do
     pipe_through :json_api
     resources "/magazines", Api.MagazineController
+    resources "/users", Api.UserController
+    resources "/publishing_companys", Api.PublishingCompanyController
   end
 
   # Other scopes may use custom stacks.

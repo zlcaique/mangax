@@ -9,7 +9,7 @@ defmodule Mangax.Magazines.Magazine do
     field :name, :string
     field :banner, :string
     field :logo, :string
-    belongs_to(:author, User, [foreign_key: :instance_type, references: :instance_type, define_field: false])
+    belongs_to(:author, User)
     belongs_to(:publishing_company, PublishingCompany)
 
 
@@ -19,7 +19,15 @@ defmodule Mangax.Magazines.Magazine do
   @doc false
   def changeset(magazine, attrs) do
     magazine
-    |> cast(attrs, [:name, :banner, :logo, :author])
-    |> validate_required([:name, :banner, :logo, :author, :publishing_company_id])
+    |> cast(attrs, [
+      :name,
+      :banner,
+      :logo,
+      :publishing_company_id,
+      :author_id
+    ])
+    |> validate_required([:name, :banner, :logo, :author_id, :publishing_company_id])
+    |> foreign_key_constraint(:publishing_company)
+    |> foreign_key_constraint(:author)
   end
 end
